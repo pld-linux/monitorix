@@ -67,14 +67,13 @@ install reports/en/imgs_email/logo.jpg $RPM_BUILD_ROOT%{_datadir}/%{name}/report
 install reports/en/imgs_email/signature.png $RPM_BUILD_ROOT%{_datadir}/%{name}/reports/en/imgs_email
 install reports/en/imgs_email/title.jpg $RPM_BUILD_ROOT%{_datadir}/%{name}/reports/en/imgs_email
 install -d $RPM_BUILD_ROOT%{_datadir}/%{name}/usage
+install -d $RPM_BUILD_ROOT%{_datadir}/%{name}/imgs
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/chkconfig --add monitorix
-mkdir -p %{_datadir}/%{name}/usage
-chown http:http %{_datadir}/%{name}/monitorix/imgs
 
 %triggerin -- apache1
 %webapp_register apache %{_webapp}
@@ -96,6 +95,7 @@ chown http:http %{_datadir}/%{name}/monitorix/imgs
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/httpd.conf
 %attr(755,root,root) %{_sbindir}/monitorix.pl
 %defattr(-, http, http)
+%dir %{_datadir}/%{name}/imgs
 %{_datadir}/monitorix/logo_top.jpg
 %{_datadir}/monitorix/*.png
 /home/services/httpd/cgi-bin/monitorix.cgi
