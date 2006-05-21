@@ -1,4 +1,6 @@
 # TODO
+# - /usr/share isn't proper place for %config files
+# - missing dirs
 # - webapps integration
 Summary:	Lightweight system monitoring tool designed to monitorize as many services as it can
 Name:		monitorix
@@ -97,6 +99,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
+%doc COPYING Changelog Configuration.help README
 %attr(754,root,root) /etc/rc.d/init.d/monitorix
 %{_sysconfdir}/httpd/conf.d/monitorix.conf
 %config(noreplace) %{_sysconfdir}/monitorix.conf
@@ -120,4 +123,3 @@ fi
 %config(noreplace) %{_datadir}/%{name}/reports/en/imgs_email/logo.jpg
 %config(noreplace) %{_datadir}/%{name}/reports/en/imgs_email/signature.png
 %config(noreplace) %{_datadir}/%{name}/reports/en/imgs_email/title.jpg
-%doc COPYING Changelog Configuration.help README
