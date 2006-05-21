@@ -10,6 +10,7 @@ Source0:	http://www.monitorix.org/%{name}-%{version}.tar.gz
 Requires:	bash
 Requires:	perl
 Requires:	rrdtool
+Requires:	webserver
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -35,15 +36,15 @@ install -d ${RPM_BUILD_ROOT}%{_sysconfdir}
 install monitorix.conf ${RPM_BUILD_ROOT}%{_sysconfdir}/monitorix.conf
 install -d ${RPM_BUILD_ROOT}%{_sbindir}
 install monitorix.pl ${RPM_BUILD_ROOT}%{_sbindir}
-install -d ${RPM_BUILD_ROOT}/var/www/html/monitorix
-install logo_top.jpg ${RPM_BUILD_ROOT}/var/www/html/monitorix
-install logo_bot_black.png ${RPM_BUILD_ROOT}/var/www/html/monitorix
-install logo_bot_white.png ${RPM_BUILD_ROOT}/var/www/html/monitorix
-install envelope.png ${RPM_BUILD_ROOT}/var/www/html/monitorix
-install -d ${RPM_BUILD_ROOT}/var/www/html/monitorix/imgs
-install -d ${RPM_BUILD_ROOT}/var/www/cgi-bin/monitorix
-install monitorix.cgi ${RPM_BUILD_ROOT}/var/www/cgi-bin
-install localhost.cgi ${RPM_BUILD_ROOT}/var/www/cgi-bin/monitorix
+install -d ${RPM_BUILD_ROOT}/home/services/httpd/html/monitorix
+install logo_top.jpg ${RPM_BUILD_ROOT}/home/services/httpd/html/monitorix
+install logo_bot_black.png ${RPM_BUILD_ROOT}/home/services/httpd/html/monitorix
+install logo_bot_white.png ${RPM_BUILD_ROOT}/home/services/httpd/html/monitorix
+install envelope.png ${RPM_BUILD_ROOT}/home/services/httpd/html/monitorix
+install -d ${RPM_BUILD_ROOT}/home/services/httpd/html/monitorix/imgs
+install -d ${RPM_BUILD_ROOT}/home/services/httpd/cgi-bin/monitorix
+install monitorix.cgi ${RPM_BUILD_ROOT}/home/services/httpd/cgi-bin
+install localhost.cgi ${RPM_BUILD_ROOT}/home/services/httpd/cgi-bin/monitorix
 install -d ${RPM_BUILD_ROOT}/var/lib/monitorix/reports/ca/imgs_email
 install reports/ca/traffic_report.html ${RPM_BUILD_ROOT}/var/lib/monitorix/reports/ca
 install reports/ca/traffic_report.sh ${RPM_BUILD_ROOT}/var/lib/monitorix/reports/ca
@@ -65,9 +66,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/chkconfig --add monitorix
-mkdir -p /var/www/html/monitorix/imgs
+mkdir -p /home/services/httpd/html/monitorix/imgs
 mkdir -p /var/lib/monitorix/usage
-chown apache:apache /var/www/html/monitorix/imgs
+chown apache:apache /home/services/httpd/html/monitorix/imgs
 
 %files
 %defattr(644,root,root,755)
@@ -76,12 +77,12 @@ chown apache:apache /var/www/html/monitorix/imgs
 %config(noreplace) %{_sysconfdir}/monitorix.conf
 %attr(755,root,root) %{_sbindir}/monitorix.pl
 %defattr(-, apache, apache)
-/var/www/html/monitorix/logo_top.jpg
-/var/www/html/monitorix/logo_bot_black.png
-/var/www/html/monitorix/logo_bot_white.png
-/var/www/html/monitorix/envelope.png
-/var/www/cgi-bin/monitorix.cgi
-/var/www/cgi-bin/monitorix/localhost.cgi
+/home/services/httpd/html/monitorix/logo_top.jpg
+/home/services/httpd/html/monitorix/logo_bot_black.png
+/home/services/httpd/html/monitorix/logo_bot_white.png
+/home/services/httpd/html/monitorix/envelope.png
+/home/services/httpd/cgi-bin/monitorix.cgi
+/home/services/httpd/cgi-bin/monitorix/localhost.cgi
 %config(noreplace) /var/lib/monitorix/reports/ca/traffic_report.html
 %config(noreplace) /var/lib/monitorix/reports/ca/traffic_report.sh
 %config(noreplace) /var/lib/monitorix/reports/ca/imgs_email/blank.png
