@@ -1,12 +1,9 @@
 # TODO
-# - package into /usr/share/%{name}
-# - webapps framework
 # - post/preun for initscript
-# - no apache uid in pld
 Summary:	Lightweight system monitoring tool designed to monitorize as many services as it can
 Name:		monitorix
 Version:	0.8.1
-Release:	0.1
+Release:	0.2
 License:	GPL
 Group:		Applications/System
 URL:		http://www.monitorix.org
@@ -14,11 +11,16 @@ Source0:	http://www.monitorix.org/%{name}-%{version}.tar.gz
 # Source0-md5:	ddd330c84b59ea7ebb7cf63d9031757f
 Requires:	bash
 Requires:	perl-base
+Requires:	rc-scripts
 Requires:	rrdtool
 Requires:	webserver
-Requires:	rc-scripts
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define		_appdir		%{_datadir}/%{name}
+%define		_webapps	/etc/webapps
+%define		_webapp		%{name}
+%define		_sysconfdir	%{_webapps}/%{_webapp}
 
 %description
 Monitorix is a free, open source, lightweight system monitoring tool
@@ -32,47 +34,57 @@ devices' interrupt activity are also monitored.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d
-install ports/Linux-RHFC/monitorix.init $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d/monitorix
+install -d $RPM_BUILD_ROOT/etc/rc.d/init.d
+install ports/Linux-RHFC/monitorix.init $RPM_BUILD_ROOT/etc/rc.d/init.d/monitorix
 install -d $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf.d
 install monitorix-apache.conf $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf.d/monitorix.conf
 install -d $RPM_BUILD_ROOT%{_sysconfdir}
 install monitorix.conf $RPM_BUILD_ROOT%{_sysconfdir}/monitorix.conf
 install -d $RPM_BUILD_ROOT%{_sbindir}
 install monitorix.pl $RPM_BUILD_ROOT%{_sbindir}
-install -d $RPM_BUILD_ROOT/home/services/httpd/html/monitorix
-install logo_top.jpg $RPM_BUILD_ROOT/home/services/httpd/html/monitorix
-install logo_bot_black.png $RPM_BUILD_ROOT/home/services/httpd/html/monitorix
-install logo_bot_white.png $RPM_BUILD_ROOT/home/services/httpd/html/monitorix
-install envelope.png $RPM_BUILD_ROOT/home/services/httpd/html/monitorix
-install -d $RPM_BUILD_ROOT/home/services/httpd/html/monitorix/imgs
 install -d $RPM_BUILD_ROOT/home/services/httpd/cgi-bin/monitorix
 install monitorix.cgi $RPM_BUILD_ROOT/home/services/httpd/cgi-bin
+install -d $RPM_BUILD_ROOT%{_datadir}/monitorix
+install logo_top.jpg $RPM_BUILD_ROOT%{_datadir}/monitorix
+install logo_bot_black.png $RPM_BUILD_ROOT%{_datadir}/monitorix
+install logo_bot_white.png $RPM_BUILD_ROOT%{_datadir}/monitorix
+install envelope.png $RPM_BUILD_ROOT%{_datadir}/monitorix
 install localhost.cgi $RPM_BUILD_ROOT/home/services/httpd/cgi-bin/monitorix
-install -d $RPM_BUILD_ROOT/var/lib/monitorix/reports/ca/imgs_email
-install reports/ca/traffic_report.html $RPM_BUILD_ROOT/var/lib/monitorix/reports/ca
-install reports/ca/traffic_report.sh $RPM_BUILD_ROOT/var/lib/monitorix/reports/ca
-install reports/ca/imgs_email/blank.png $RPM_BUILD_ROOT/var/lib/monitorix/reports/ca/imgs_email
-install reports/ca/imgs_email/logo.jpg $RPM_BUILD_ROOT/var/lib/monitorix/reports/ca/imgs_email
-install reports/ca/imgs_email/signature.png $RPM_BUILD_ROOT/var/lib/monitorix/reports/ca/imgs_email
-install reports/ca/imgs_email/title.jpg $RPM_BUILD_ROOT/var/lib/monitorix/reports/ca/imgs_email
-install -d $RPM_BUILD_ROOT/var/lib/monitorix/reports/en/imgs_email
-install reports/en/traffic_report.html $RPM_BUILD_ROOT/var/lib/monitorix/reports/en
-install reports/en/traffic_report.sh $RPM_BUILD_ROOT/var/lib/monitorix/reports/en
-install reports/en/imgs_email/blank.png $RPM_BUILD_ROOT/var/lib/monitorix/reports/en/imgs_email
-install reports/en/imgs_email/logo.jpg $RPM_BUILD_ROOT/var/lib/monitorix/reports/en/imgs_email
-install reports/en/imgs_email/signature.png $RPM_BUILD_ROOT/var/lib/monitorix/reports/en/imgs_email
-install reports/en/imgs_email/title.jpg $RPM_BUILD_ROOT/var/lib/monitorix/reports/en/imgs_email
-install -d $RPM_BUILD_ROOT/var/lib/monitorix/usage
+install -d $RPM_BUILD_ROOT%{_datadir}/%{name}/reports/ca/imgs_email
+install reports/ca/traffic_report.html $RPM_BUILD_ROOT%{_datadir}/%{name}/reports/ca
+install reports/ca/traffic_report.sh $RPM_BUILD_ROOT%{_datadir}/%{name}/reports/ca
+install reports/ca/imgs_email/blank.png $RPM_BUILD_ROOT%{_datadir}/%{name}/reports/ca/imgs_email
+install reports/ca/imgs_email/logo.jpg $RPM_BUILD_ROOT%{_datadir}/%{name}/reports/ca/imgs_email
+install reports/ca/imgs_email/signature.png $RPM_BUILD_ROOT%{_datadir}/%{name}/reports/ca/imgs_email
+install reports/ca/imgs_email/title.jpg $RPM_BUILD_ROOT%{_datadir}/%{name}/reports/ca/imgs_email
+install -d $RPM_BUILD_ROOT%{_datadir}/%{name}/reports/en/imgs_email
+install reports/en/traffic_report.html $RPM_BUILD_ROOT%{_datadir}/%{name}/reports/en
+install reports/en/traffic_report.sh $RPM_BUILD_ROOT%{_datadir}/%{name}/reports/en
+install reports/en/imgs_email/blank.png $RPM_BUILD_ROOT%{_datadir}/%{name}/reports/en/imgs_email
+install reports/en/imgs_email/logo.jpg $RPM_BUILD_ROOT%{_datadir}/%{name}/reports/en/imgs_email
+install reports/en/imgs_email/signature.png $RPM_BUILD_ROOT%{_datadir}/%{name}/reports/en/imgs_email
+install reports/en/imgs_email/title.jpg $RPM_BUILD_ROOT%{_datadir}/%{name}/reports/en/imgs_email
+install -d $RPM_BUILD_ROOT%{_datadir}/%{name}/usage
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/chkconfig --add monitorix
-mkdir -p /home/services/httpd/html/monitorix/imgs
-mkdir -p /var/lib/monitorix/usage
-chown apache:apache /home/services/httpd/html/monitorix/imgs
+mkdir -p %{_datadir}/%{name}/usage
+chown http:http %{_datadir}/%{name}/monitorix/imgs
+
+%triggerin -- apache1
+%webapp_register apache %{_webapp}
+
+%triggerun -- apache1
+%webapp_unregister apache %{_webapp}
+
+%triggerin -- apache < 2.2.0, apache-base
+%webapp_register httpd %{_webapp}
+
+%triggerun -- apache < 2.2.0, apache-base
+%webapp_unregister httpd %{_webapp}
 
 %files
 %defattr(644,root,root,755)
@@ -80,23 +92,21 @@ chown apache:apache /home/services/httpd/html/monitorix/imgs
 %{_sysconfdir}/httpd/conf.d/monitorix.conf
 %config(noreplace) %{_sysconfdir}/monitorix.conf
 %attr(755,root,root) %{_sbindir}/monitorix.pl
-%defattr(-, apache, apache)
-/home/services/httpd/html/monitorix/logo_top.jpg
-/home/services/httpd/html/monitorix/logo_bot_black.png
-/home/services/httpd/html/monitorix/logo_bot_white.png
-/home/services/httpd/html/monitorix/envelope.png
+%defattr(-, http, http)
+%{_datadir}/monitorix/logo_top.jpg
+%{_datadir}/monitorix/*.png
 /home/services/httpd/cgi-bin/monitorix.cgi
 /home/services/httpd/cgi-bin/monitorix/localhost.cgi
-%config(noreplace) /var/lib/monitorix/reports/ca/traffic_report.html
-%config(noreplace) /var/lib/monitorix/reports/ca/traffic_report.sh
-%config(noreplace) /var/lib/monitorix/reports/ca/imgs_email/blank.png
-%config(noreplace) /var/lib/monitorix/reports/ca/imgs_email/logo.jpg
-%config(noreplace) /var/lib/monitorix/reports/ca/imgs_email/signature.png
-%config(noreplace) /var/lib/monitorix/reports/ca/imgs_email/title.jpg
-%config(noreplace) /var/lib/monitorix/reports/en/traffic_report.html
-%config(noreplace) /var/lib/monitorix/reports/en/traffic_report.sh
-%config(noreplace) /var/lib/monitorix/reports/en/imgs_email/blank.png
-%config(noreplace) /var/lib/monitorix/reports/en/imgs_email/logo.jpg
-%config(noreplace) /var/lib/monitorix/reports/en/imgs_email/signature.png
-%config(noreplace) /var/lib/monitorix/reports/en/imgs_email/title.jpg
+%config(noreplace) %{_datadir}/%{name}/reports/ca/traffic_report.html
+%config(noreplace) %{_datadir}/%{name}/reports/ca/traffic_report.sh
+%config(noreplace) %{_datadir}/%{name}/reports/ca/imgs_email/blank.png
+%config(noreplace) %{_datadir}/%{name}/reports/ca/imgs_email/logo.jpg
+%config(noreplace) %{_datadir}/%{name}/reports/ca/imgs_email/signature.png
+%config(noreplace) %{_datadir}/%{name}/reports/ca/imgs_email/title.jpg
+%config(noreplace) %{_datadir}/%{name}/reports/en/traffic_report.html
+%config(noreplace) %{_datadir}/%{name}/reports/en/traffic_report.sh
+%config(noreplace) %{_datadir}/%{name}/reports/en/imgs_email/blank.png
+%config(noreplace) %{_datadir}/%{name}/reports/en/imgs_email/logo.jpg
+%config(noreplace) %{_datadir}/%{name}/reports/en/imgs_email/signature.png
+%config(noreplace) %{_datadir}/%{name}/reports/en/imgs_email/title.jpg
 %doc COPYING Changelog Configuration.help README
