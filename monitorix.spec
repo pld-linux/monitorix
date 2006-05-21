@@ -1,3 +1,8 @@
+# TODO
+# - package into /usr/share/%{name}
+# - webapps framework
+# - post/preun for initscript
+# - no apache uid in pld
 Summary:	Lightweight system monitoring tool designed to monitorize as many services as it can
 Name:		monitorix
 Version:	0.8.1
@@ -8,9 +13,10 @@ URL:		http://www.monitorix.org
 Source0:	http://www.monitorix.org/%{name}-%{version}.tar.gz
 # Source0-md5:	ddd330c84b59ea7ebb7cf63d9031757f
 Requires:	bash
-Requires:	perl
+Requires:	perl-base
 Requires:	rrdtool
 Requires:	webserver
+Requires:	rc-scripts
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -24,42 +30,40 @@ devices' interrupt activity are also monitored.
 %prep
 %setup -q
 
-%build
-
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d ${RPM_BUILD_ROOT}%{_sysconfdir}/rc.d/init.d
-install ports/Linux-RHFC/monitorix.init ${RPM_BUILD_ROOT}%{_sysconfdir}/rc.d/init.d/monitorix
-install -d ${RPM_BUILD_ROOT}%{_sysconfdir}/httpd/conf.d
-install monitorix-apache.conf ${RPM_BUILD_ROOT}%{_sysconfdir}/httpd/conf.d/monitorix.conf
-install -d ${RPM_BUILD_ROOT}%{_sysconfdir}
-install monitorix.conf ${RPM_BUILD_ROOT}%{_sysconfdir}/monitorix.conf
-install -d ${RPM_BUILD_ROOT}%{_sbindir}
-install monitorix.pl ${RPM_BUILD_ROOT}%{_sbindir}
-install -d ${RPM_BUILD_ROOT}/home/services/httpd/html/monitorix
-install logo_top.jpg ${RPM_BUILD_ROOT}/home/services/httpd/html/monitorix
-install logo_bot_black.png ${RPM_BUILD_ROOT}/home/services/httpd/html/monitorix
-install logo_bot_white.png ${RPM_BUILD_ROOT}/home/services/httpd/html/monitorix
-install envelope.png ${RPM_BUILD_ROOT}/home/services/httpd/html/monitorix
-install -d ${RPM_BUILD_ROOT}/home/services/httpd/html/monitorix/imgs
-install -d ${RPM_BUILD_ROOT}/home/services/httpd/cgi-bin/monitorix
-install monitorix.cgi ${RPM_BUILD_ROOT}/home/services/httpd/cgi-bin
-install localhost.cgi ${RPM_BUILD_ROOT}/home/services/httpd/cgi-bin/monitorix
-install -d ${RPM_BUILD_ROOT}/var/lib/monitorix/reports/ca/imgs_email
-install reports/ca/traffic_report.html ${RPM_BUILD_ROOT}/var/lib/monitorix/reports/ca
-install reports/ca/traffic_report.sh ${RPM_BUILD_ROOT}/var/lib/monitorix/reports/ca
-install reports/ca/imgs_email/blank.png ${RPM_BUILD_ROOT}/var/lib/monitorix/reports/ca/imgs_email
-install reports/ca/imgs_email/logo.jpg ${RPM_BUILD_ROOT}/var/lib/monitorix/reports/ca/imgs_email
-install reports/ca/imgs_email/signature.png ${RPM_BUILD_ROOT}/var/lib/monitorix/reports/ca/imgs_email
-install reports/ca/imgs_email/title.jpg ${RPM_BUILD_ROOT}/var/lib/monitorix/reports/ca/imgs_email
-install -d ${RPM_BUILD_ROOT}/var/lib/monitorix/reports/en/imgs_email
-install reports/en/traffic_report.html ${RPM_BUILD_ROOT}/var/lib/monitorix/reports/en
-install reports/en/traffic_report.sh ${RPM_BUILD_ROOT}/var/lib/monitorix/reports/en
-install reports/en/imgs_email/blank.png ${RPM_BUILD_ROOT}/var/lib/monitorix/reports/en/imgs_email
-install reports/en/imgs_email/logo.jpg ${RPM_BUILD_ROOT}/var/lib/monitorix/reports/en/imgs_email
-install reports/en/imgs_email/signature.png ${RPM_BUILD_ROOT}/var/lib/monitorix/reports/en/imgs_email
-install reports/en/imgs_email/title.jpg ${RPM_BUILD_ROOT}/var/lib/monitorix/reports/en/imgs_email
-install -d ${RPM_BUILD_ROOT}/var/lib/monitorix/usage
+install -d $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d
+install ports/Linux-RHFC/monitorix.init $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d/monitorix
+install -d $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf.d
+install monitorix-apache.conf $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf.d/monitorix.conf
+install -d $RPM_BUILD_ROOT%{_sysconfdir}
+install monitorix.conf $RPM_BUILD_ROOT%{_sysconfdir}/monitorix.conf
+install -d $RPM_BUILD_ROOT%{_sbindir}
+install monitorix.pl $RPM_BUILD_ROOT%{_sbindir}
+install -d $RPM_BUILD_ROOT/home/services/httpd/html/monitorix
+install logo_top.jpg $RPM_BUILD_ROOT/home/services/httpd/html/monitorix
+install logo_bot_black.png $RPM_BUILD_ROOT/home/services/httpd/html/monitorix
+install logo_bot_white.png $RPM_BUILD_ROOT/home/services/httpd/html/monitorix
+install envelope.png $RPM_BUILD_ROOT/home/services/httpd/html/monitorix
+install -d $RPM_BUILD_ROOT/home/services/httpd/html/monitorix/imgs
+install -d $RPM_BUILD_ROOT/home/services/httpd/cgi-bin/monitorix
+install monitorix.cgi $RPM_BUILD_ROOT/home/services/httpd/cgi-bin
+install localhost.cgi $RPM_BUILD_ROOT/home/services/httpd/cgi-bin/monitorix
+install -d $RPM_BUILD_ROOT/var/lib/monitorix/reports/ca/imgs_email
+install reports/ca/traffic_report.html $RPM_BUILD_ROOT/var/lib/monitorix/reports/ca
+install reports/ca/traffic_report.sh $RPM_BUILD_ROOT/var/lib/monitorix/reports/ca
+install reports/ca/imgs_email/blank.png $RPM_BUILD_ROOT/var/lib/monitorix/reports/ca/imgs_email
+install reports/ca/imgs_email/logo.jpg $RPM_BUILD_ROOT/var/lib/monitorix/reports/ca/imgs_email
+install reports/ca/imgs_email/signature.png $RPM_BUILD_ROOT/var/lib/monitorix/reports/ca/imgs_email
+install reports/ca/imgs_email/title.jpg $RPM_BUILD_ROOT/var/lib/monitorix/reports/ca/imgs_email
+install -d $RPM_BUILD_ROOT/var/lib/monitorix/reports/en/imgs_email
+install reports/en/traffic_report.html $RPM_BUILD_ROOT/var/lib/monitorix/reports/en
+install reports/en/traffic_report.sh $RPM_BUILD_ROOT/var/lib/monitorix/reports/en
+install reports/en/imgs_email/blank.png $RPM_BUILD_ROOT/var/lib/monitorix/reports/en/imgs_email
+install reports/en/imgs_email/logo.jpg $RPM_BUILD_ROOT/var/lib/monitorix/reports/en/imgs_email
+install reports/en/imgs_email/signature.png $RPM_BUILD_ROOT/var/lib/monitorix/reports/en/imgs_email
+install reports/en/imgs_email/title.jpg $RPM_BUILD_ROOT/var/lib/monitorix/reports/en/imgs_email
+install -d $RPM_BUILD_ROOT/var/lib/monitorix/usage
 
 %clean
 rm -rf $RPM_BUILD_ROOT
