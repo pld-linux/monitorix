@@ -1,5 +1,5 @@
 # TODO
-# - post/preun for initscript
+# - webapps integration
 Summary:	Lightweight system monitoring tool designed to monitorize as many services as it can
 Name:		monitorix
 Version:	0.8.1
@@ -10,6 +10,7 @@ URL:		http://www.monitorix.org
 Source0:	http://www.monitorix.org/%{name}-%{version}.tar.gz
 # Source0-md5:	ddd330c84b59ea7ebb7cf63d9031757f
 Source1:	%{name}.conf
+BuildRequires:	rpmbuild(macros) >= 1.268
 Requires:	bash
 Requires:	perl-rrdtool
 Requires:	rc-scripts
@@ -74,6 +75,13 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/chkconfig --add monitorix
+%service %{name} restart
+
+%preun
+if [ "$1" = "0" ]; then
+	%service %{name} stop
+	/sbin/chkconfig --del %{name}
+fi
 
 %triggerin -- apache1
 %webapp_register apache %{_webapp}
@@ -86,12 +94,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %triggerun -- apache < 2.2.0, apache-base
 %webapp_unregister httpd %{_webapp}
-
-%preun
-if [ "$1" = "0" ]; then
-	%service %{name} stop
-	/sbin/chkconfig --del %{name}
-fi
 
 %files
 %defattr(644,root,root,755)
