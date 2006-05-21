@@ -11,7 +11,7 @@ Source0:	http://www.monitorix.org/%{name}-%{version}.tar.gz
 # Source0-md5:	ddd330c84b59ea7ebb7cf63d9031757f
 Source1:	%{name}.conf
 Requires:	bash
-Requires:	perl-base
+Requires:	perl-rrdtool
 Requires:	rc-scripts
 Requires:	rrdtool
 Requires:	webserver
@@ -86,6 +86,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %triggerun -- apache < 2.2.0, apache-base
 %webapp_unregister httpd %{_webapp}
+
+%preun
+if [ "$1" = "0" ]; then
+	%service %{name} stop
+	/sbin/chkconfig --del %{name}
+fi
 
 %files
 %defattr(644,root,root,755)
