@@ -9,6 +9,7 @@ Group:		Applications/System
 URL:		http://www.monitorix.org
 Source0:	http://www.monitorix.org/%{name}-%{version}.tar.gz
 # Source0-md5:	ddd330c84b59ea7ebb7cf63d9031757f
+Source1:	%{name}.conf
 Requires:	bash
 Requires:	perl-base
 Requires:	rc-scripts
@@ -40,6 +41,7 @@ install -d $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf.d
 install monitorix-apache.conf $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf.d/monitorix.conf
 install -d $RPM_BUILD_ROOT%{_sysconfdir}
 install monitorix.conf $RPM_BUILD_ROOT%{_sysconfdir}/monitorix.conf
+install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
 install -d $RPM_BUILD_ROOT%{_sbindir}
 install monitorix.pl $RPM_BUILD_ROOT%{_sbindir}
 install -d $RPM_BUILD_ROOT/home/services/httpd/cgi-bin/monitorix
@@ -91,6 +93,7 @@ chown http:http %{_datadir}/%{name}/monitorix/imgs
 %attr(754,root,root) /etc/rc.d/init.d/monitorix
 %{_sysconfdir}/httpd/conf.d/monitorix.conf
 %config(noreplace) %{_sysconfdir}/monitorix.conf
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/httpd.conf
 %attr(755,root,root) %{_sbindir}/monitorix.pl
 %defattr(-, http, http)
 %{_datadir}/monitorix/logo_top.jpg
