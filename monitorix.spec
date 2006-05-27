@@ -1,17 +1,20 @@
 # TODO
 # - /usr/share isn't proper place for %config files
+# - kill /home/services
+# - kill defattr(-,...)
 # - missing dirs
 # - webapps integration
-Summary:	Lightweight system monitoring tool designed to monitorize as many services as it can
+Summary:	Lightweight system monitoring tool to monitorize as many services as it can
+Summary(pl):	Lekkie narzêdzie do monitorowania jak najwiêkszej liczby us³ug w systemie
 Name:		monitorix
 Version:	0.8.1
 Release:	0.2
 License:	GPL
 Group:		Applications/System
-URL:		http://www.monitorix.org
 Source0:	http://www.monitorix.org/%{name}-%{version}.tar.gz
 # Source0-md5:	ddd330c84b59ea7ebb7cf63d9031757f
 Source1:	%{name}.conf
+URL:		http://www.monitorix.org/
 BuildRequires:	rpmbuild(macros) >= 1.268
 Requires:	bash
 Requires:	perl-rrdtool
@@ -32,6 +35,14 @@ designed to monitorize as many services as it can. At this time it
 monitors from the CPU load and temperatures to the users using the
 system. Network devices activity, network services demand and even the
 devices' interrupt activity are also monitored.
+
+%description -l pl
+Monitorix to wolnodostêpne i maj±ce otwarte ¼ród³a lekkie narzêdzie
+do monitorowania systemu zaprojektowane do monitorowania jak
+najwiêkszej liczby us³ug. Aktualnie ¶ledzi parametry od obci±¿enia
+procesora i temperatur do u¿ytkowników korzystaj±cych z systemu.
+Monitorowane s± tak¿e ¿±dania us³ug sieciowych, aktywno¶æ interfejsów
+sieciowych, a nawet aktywno¶æ przerwañ urz±dzeñ.
 
 %prep
 %setup -q
@@ -105,12 +116,18 @@ fi
 %config(noreplace) %{_sysconfdir}/monitorix.conf
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/httpd.conf
 %attr(755,root,root) %{_sbindir}/monitorix.pl
-%defattr(-, http, http)
-%dir %{_datadir}/%{name}/imgs
+%attr(755,root,root) /home/services/httpd/cgi-bin/monitorix.cgi
+%attr(755,root,root) /home/services/httpd/cgi-bin/monitorix/localhost.cgi
+%dir %{_datadir}/%{name}
+%dir %{_datadir}/%{name}/reports
+%dir %{_datadir}/%{name}/ca
+%dir %{_datadir}/%{name}/ca/imgs_email
+%dir %{_datadir}/%{name}/en
+%dir %{_datadir}/%{name}/en/imgs_email
 %{_datadir}/monitorix/logo_top.jpg
 %{_datadir}/monitorix/*.png
-/home/services/httpd/cgi-bin/monitorix.cgi
-/home/services/httpd/cgi-bin/monitorix/localhost.cgi
+%defattr(-, http, http)
+%dir %{_datadir}/%{name}/imgs
 %config(noreplace) %{_datadir}/%{name}/reports/ca/traffic_report.html
 %config(noreplace) %{_datadir}/%{name}/reports/ca/traffic_report.sh
 %config(noreplace) %{_datadir}/%{name}/reports/ca/imgs_email/blank.png
