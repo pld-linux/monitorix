@@ -5,7 +5,7 @@
 # - missing dirs
 # - webapps integration
 Summary:	Lightweight system monitoring tool to monitorize as many services as it can
-Summary(pl):	Lekkie narzêdzie do monitorowania jak najwiêkszej liczby us³ug w systemie
+Summary(pl.UTF-8):   Lekkie narzÄ™dzie do monitorowania jak najwiÄ™kszej liczby usÅ‚ug w systemie
 Name:		monitorix
 Version:	0.8.1
 Release:	0.2
@@ -36,13 +36,13 @@ monitors from the CPU load and temperatures to the users using the
 system. Network devices activity, network services demand and even the
 devices' interrupt activity are also monitored.
 
-%description -l pl
-Monitorix to wolnodostêpne i maj±ce otwarte ¼ród³a lekkie narzêdzie
+%description -l pl.UTF-8
+Monitorix to wolnodostÄ™pne i majÄ…ce otwarte ÅºrÃ³dÅ‚a lekkie narzÄ™dzie
 do monitorowania systemu zaprojektowane do monitorowania jak
-najwiêkszej liczby us³ug. Aktualnie ¶ledzi parametry od obci±¿enia
-procesora i temperatur do u¿ytkowników korzystaj±cych z systemu.
-Monitorowane s± tak¿e ¿±dania us³ug sieciowych, aktywno¶æ interfejsów
-sieciowych, a nawet aktywno¶æ przerwañ urz±dzeñ.
+najwiÄ™kszej liczby usÅ‚ug. Aktualnie Å›ledzi parametry od obciÄ…Å¼enia
+procesora i temperatur do uÅ¼ytkownikÃ³w korzystajÄ…cych z systemu.
+Monitorowane sÄ… takÅ¼e Å¼Ä…dania usÅ‚ug sieciowych, aktywnoÅ›Ä‡ interfejsÃ³w
+sieciowych, a nawet aktywnoÅ›Ä‡ przerwaÅ„ urzÄ…dzeÅ„.
 
 %prep
 %setup -q
