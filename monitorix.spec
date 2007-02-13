@@ -5,7 +5,7 @@
 # - missing dirs
 # - webapps integration
 Summary:	Lightweight system monitoring tool to monitorize as many services as it can
-Summary(pl.UTF-8):   Lekkie narzędzie do monitorowania jak największej liczby usług w systemie
+Summary(pl.UTF-8):	Lekkie narzędzie do monitorowania jak największej liczby usług w systemie
 Name:		monitorix
 Version:	0.8.1
 Release:	0.2
